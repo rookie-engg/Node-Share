@@ -9,26 +9,13 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\""
+    "lint": "echo \"No linting configured\"",
+    "build": "electron-builder "
   },
   "build": {
-    "appId": "com.example.my-electron-app",
-    "asar": true,
-    "productName": "Node Share",
-    "directories": {
-      "output": "dist"
-    },
     "win": {
-      "target": "msi",
-      "msi": {
-        "artifactName": "${productName}-Setup-${version}.${ext}"
-      }
-    },
-    "nsis": {
-      "oneClick": false,
-      "perMachine": true,
-      "allowElevation": true,
-      "allowToChangeInstallationDirectory": true
+      "icon": "resources/img/favicon.png",
+      "target": "msi"
     }
   },
   "keywords": [],
@@ -42,7 +29,6 @@
     "du": "^1.0.0",
     "electron-settings": "^4.0.2",
     "electron-squirrel-startup": "^1.0.0",
-    "electron-sudo": "^4.0.12",
     "express": "^4.18.2",
     "multer": "^1.4.5-lts.1",
     "nprogress": "^0.2.0",
@@ -57,6 +43,7 @@
     "@electron-forge/maker-wix": "^6.2.1",
     "@electron-forge/maker-zip": "^6.1.1",
     "electron": "24.4.0",
+    "electron-builder": "^24.4.0",
     "eslint": "^8.43.0",
     "eslint-config-google": "^0.14.0"
   }
