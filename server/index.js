@@ -4,7 +4,7 @@ const {io} = require('./socket.js');
 module.exports = {
   initServer() {
     return new Promise((resolve) => {
-      const httpServer = app.listen(8080, () => {
+      const httpServer = app.listen(() => {
         io.listen(httpServer);
         const addr = httpServer.address();
         resolve(addr.port);

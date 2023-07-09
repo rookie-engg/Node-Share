@@ -1,33 +1,51 @@
 /* eslint-disable require-jsdoc */
 const {networkInterfaces} = require('node:os');
+const wifi = require('node-wifi');
 const settings = require('electron-settings');
+
+wifi.init({
+  iface: null,
+});
 
 /**
  * returns IPv4 Address if Wifi Interface is
  * Avalibale or empty array
- * @return {string[]}
+ * @return {Promise<string[]>}
 */
-function getWifiInterfaceIPv4Address() {
+async function getWifiInterfaceIPv4Address() {
   const interfaces = networkInterfaces();
+  const currentConnections = await wifi.getCurrentConnections();
 
-  // if wi-fi interface is not found return null
-  if (!('Wi-Fi' in interfaces)) return [];
+  const connectedInterfaceInfo =
+    interfaces[currentConnections[0].iface]
+        ?.find((info) => info.family === 'IPv4');
 
-  return interfaces['Wi-Fi']
-      .filter((addressObject) => {
-        return (addressObject.family === 'IPv4' &&
-        !addressObject.internal) ? true : false;
-      })
-      .map((addressObject) => addressObject.address);
+  if (connectedInterfaceInfo) {
+    return connectedInterfaceInfo.address;
+  } else {
+    return null;
+  }
 }
 
 /**
  * returns true if Wi-Fi interface is
  * connected else return false
- * @return {boolean}
+ * @return {Promise<boolean>}
 */
-function isConnectedToWiFi() {
-  return 'Wi-Fi' in networkInterfaces() ? true : false;
+async function isConnectedToWiFi() {
+  return new Promise((resolve) => {
+    wifi.getCurrentConnections((error, currentConnections) => {
+      if (error) {
+        resolve(false);
+      } else {
+        if (currentConnections.length > 0) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      }
+    });
+  });
 }
 
 // const destination = settings.getSync('destnationPath');

@@ -43,18 +43,16 @@ const createWindow = async () => {
   });
   // mainWindow.webContents.openDevTools();
 
-  const address = getWifiInterfaceIPv4Address();
+  const address = await getWifiInterfaceIPv4Address();
   // mainWindow.hide();
 
   const port = await initServer();
 
   if (typeof port === 'number') {
-    address.forEach((a) => {
-      console.log(`Server on http://${a}:${port}`);
-    });
+    console.log(`Server on http://${address}:${port}`);
 
     ipcMain.handle('get-server-address', (_ev) => {
-      return `http://${address[0]}:${port}`;
+      return `http://${address}:${port}`;
     });
   }
 
@@ -76,8 +74,8 @@ const createWindow = async () => {
 };
 
 // eslint-disable-next-line require-jsdoc
-function check() {
-  if (!isConnectedToWiFi()) {
+async function check() {
+  if (!await isConnectedToWiFi()) {
     dialog.showErrorBox('Wi-Fi Error',
         'Please connect to a hotspot or wifi network');
     return false;
@@ -117,14 +115,12 @@ function check() {
 };
 
 app.on('ready', async () => {
-  if (check()) {
+  if (await check()) {
     const mainWindow = await createWindow();
     mainWindow.loadFile(path.join(__dirname, '../resources/index.html'));
   } else {
     app.quit();
   }
-
-  console.log(getDestinationPath());
 });
 
 
