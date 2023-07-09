@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Reciver</title>
+  <link rel="stylesheet" href="./dropzone/basic.css" />
+  <link rel="stylesheet" href="./dropzone/dropzone.css" />
+  <link rel="shortcut icon" href="favicon.png" type="image/png">
+  <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body class="bg-body">
+  <!-- here is the main presentation code -->
+  <div class="container mt-5" style="max-width: 700px;">
+    <h1 class="display-2">Node Share Client</h1>
+    <div class="card mt-4">
+      <div class="card-title p-3 row">
+        <p class="col">Drag and Drop Files/Folders or click the dropzone to select files</p>
+      </div>
+      <div class="card-header">
+        <div class="row">
+          <div class="h4 col-4 text-center">Connection Status</div>
+          <div class="col-2 d-flex justify-content-center align-items-center">
+            <div class="col bg-success text-center text-white rounded p-1 visually-hidden" id="active-indicator">Active</div>
+            <div class="col btn bg-danger rounded text-light text-center p-1" id="inactive-indicator">Inactive</div>
+          </div>
+          <button class="btn bg-success text-white col-3" id="retryBtn" onclick="tryToReconnect()">Retry</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <form action="/api/upload/files" id="fileuploadzone"
+          class="dropzone border-white border-2 rounded-2 bg-primary text-light rounded-3"></form>
+      </div>
+      <div class="card-footer ">
+        <p class="alert alert-warning d-flex align-items-center justify-content-center" role="alert">Make sure Sender
+          and Reciver are on same network</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="./bootstrap/js/bootstrap.min.js"></script>
+  <script src="./dropzone/dropzone-min.js"></script>
+  <!-- linking socket.io client JS -->
+  <script src="/socket.io/socket.io.js"></script>
+
+  <!-- connecting to socket -->
+  <script>
+    const socket = io();
+
+    // Socket event listeners
+    socket.on('invoke-download-files-request', async (files) => {
+      console.log('Download files:', files);
+      const a = document.createElement('a');
+      if (files.length === 1) {
+        a.href = `/api/download/files/single?filepath=${encodeURIComponent(files[0])}`;
+        a.click();
+        return;
+      }
+
+      const res = await fetch('/api/download/files/multiple', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({ filepaths: files }),
+      });
+
+      const url = URL.createObjectURL(await res.blob());
+      a.href = url;
+      a.click();
+      URL.revokeObjectURL(a);
+    });
+
+    socket.on('invoke-download-folder-request', async (folder) => {
+      console.log('Download folder:', folder);
+      // Implement folder download logic using the Fetch API here
+      const a = document.createElement('a');
+      a.href = `/api/download/folder/single?folderpath=${encodeURIComponent(folder)}`;
+      a.click();
+    });
+
+    /**
+     * try to reconnect
+     */
+    function tryToReconnect() {
+      socket.connect();
+    }
+
+  </script>
+
+  <script>
+    const activeIndicator = document.querySelector('#active-indicator');
+    const inactiveIndicator = document.querySelector('#inactive-indicator');
+    const retryBtn = document.querySelector('#retryBtn');
+
+    socket.on('connect', () => {
+      activeIndicator.classList.remove('visually-hidden');
+      [inactiveIndicator, retryBtn].forEach(e => e.classList.add('visually-hidden'));
+    });
+    
+    socket.on('disconnect', () => {
+      activeIndicator.classList.add('visually-hidden');
+      [inactiveIndicator, retryBtn].forEach(e => e.classList.remove('visually-hidden'));
+    })
+  </script>
+
+  <script>
+    new Dropzone('#fileuploadzone', {
+      url: '/api/upload/files',
+      paramName: 'files',
+      maxFilesize: null,
+      maxFiles: null,
+      init() {
+        let totalProgress = 0;
+
+        this.on("uploadprogress", function (file, progress) {
+          // console.log(file.name + " progress: " + progress + "%");
+        });
+
+        this.on("totaluploadprogress", function (progress) {
+          totalProgress = progress;
+          // console.log("Total progress: " + totalProgress + "%");
+        });
+
+        this.on("queuecomplete", function () {
+          console.log("All files uploaded");
+        });
+      }
+    });
+  </script>
+
+</body>
+
+</html>

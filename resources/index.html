@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node Share</title>
+  <link rel="stylesheet" href="../server/public/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/index.css">
+  <link rel="stylesheet" href="./css/nprogress.css">
+  <script src="./js/nprogress.js"></script>
+</head>
+
+<body>
+  <div id="main" class="container" style="">
+    <div class="qrcode-container row">
+      <img class="qrcode-placeholder col img-thumbnail object-fit-contain mb-2 rounded" style="height: 220px;"></img>
+      <div class="text-container col box text-center">
+        <p class="alert alert-info text-center">Scan Qrcode or Type link in your browser URL</p>
+        <code class="text"></code>
+        <p class="alert alert-warning text-center" role="alert">make sure the mobile and pc are on same network</p>
+      </div>
+    </div>
+    <div class="destination-container row mb-4">
+      <h6>Destination Folder</h6>
+      <code class="destination-text col text-nowrap overflow-hidden m-auto"></code>
+      <div class="destination-btn col-4 btn-group">
+        <button onclick="changeDestinationPath()" class="btn btn-secondary">change</button>
+        <button onclick="api.getDest().then((path) => api.openFolder(path))" class="btn btn-info">open</button>
+      </div>
+    </div>
+
+    <div class="send-files-container row mb-2">
+      <button class="btn btn-success w-100"
+        onclick="api.openFilesSelectDialog().then((files) => api.invokeDownloadFileRequest(files))">
+        Send Files
+      </button>
+    </div>
+    <div class="send-folder-container row">
+      <button class="btn btn-primary w-100"
+        onclick="api.openFolderSelectDialog().then((files) => api.invokeDownloadFolderRequest(files));">
+        Send Folder
+      </button>
+    </div>
+
+    <div class="upload-container row mb-4"></div>
+  </div>
+
+  <!-- setting valiable for global access -->
+  <script>
+    const qrcodePlaceholder = document.querySelector('.qrcode-placeholder');
+    const destinationText = document.querySelector('.destination-text');
+    const infoText = document.querySelector('.text');
+  </script>
+
+  <!-- handling qrcode -->
+  <script type="module">
+    const { url, addr } = await api.getServerAddressDataURL();
+    qrcodePlaceholder.src = url;
+    infoText.textContent = addr;
+    destinationText.textContent = await api.getDest();  
+  </script>
+
+  <!-- hadling destination -->
+  <script>
+    async function changeDestinationPath() {
+      await api.changeDest();
+      destinationText.textContent = await api.getDest();
+    }
+
+    async function openDestinationPath() {
+      api.openFolder(await api.getDest());
+    }
+  </script>
+
+  <!-- script -->
+  <script src="../server/public/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

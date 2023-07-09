@@ -1,0 +1,63 @@
+{
+  "name": "node-share",
+  "productName": "node-share",
+  "version": "1.0.0",
+  "description": "My Electron application description",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\""
+  },
+  "build": {
+    "appId": "com.example.my-electron-app",
+    "asar": true,
+    "productName": "Node Share",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "msi",
+      "msi": {
+        "artifactName": "${productName}-Setup-${version}.${ext}"
+      }
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "keywords": [],
+  "author": {
+    "name": "vishal suryawanshi",
+    "email": "102354559+rookie-engg@users.noreply.github.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "archiver": "^5.3.1",
+    "du": "^1.0.0",
+    "electron-settings": "^4.0.2",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-sudo": "^4.0.12",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "nprogress": "^0.2.0",
+    "qrcode": "^1.5.3",
+    "socket.io": "^4.6.1"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.1.1",
+    "@electron-forge/maker-deb": "^6.1.1",
+    "@electron-forge/maker-rpm": "^6.1.1",
+    "@electron-forge/maker-squirrel": "^6.1.1",
+    "@electron-forge/maker-wix": "^6.2.1",
+    "@electron-forge/maker-zip": "^6.1.1",
+    "electron": "24.4.0",
+    "eslint": "^8.43.0",
+    "eslint-config-google": "^0.14.0"
+  }
+}
