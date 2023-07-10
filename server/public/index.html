@@ -16,6 +16,7 @@
 
 <body class="bg-body">
   <!-- here is the main presentation code -->
+
   <div class="container mt-5" style="max-width: 700px;">
     <h1 class="display-2">Node Share Client</h1>
     <div class="card mt-4">
@@ -26,10 +27,15 @@
         <div class="row">
           <div class="h4 col-4 text-center">Connection Status</div>
           <div class="col-2 d-flex justify-content-center align-items-center">
-            <div class="col bg-success text-center text-white rounded p-1 visually-hidden" id="active-indicator">Active</div>
+            <div class="col bg-success text-center text-white rounded p-1 visually-hidden" id="active-indicator">Active
+            </div>
             <div class="col btn bg-danger rounded text-light text-center p-1" id="inactive-indicator">Inactive</div>
           </div>
           <button class="btn bg-success text-white col-3" id="retryBtn" onclick="tryToReconnect()">Retry</button>
+          <div id="spinner" class="col float-end d-flex align-items-center justify-content-end gap-2 visually-hidden">
+            <div class="spinner-border text-info" role="status" aria-hidden="true"></div>
+            <span class="fs-5">Receiving files</span>
+          </div>
         </div>
       </div>
       <div class="card-body">
@@ -48,6 +54,60 @@
   <!-- linking socket.io client JS -->
   <script src="/socket.io/socket.io.js"></script>
 
+  <!-- download files using blob -->
+  <script>
+    const spinner = document.querySelector('#spinner');
+    /**
+     * @param {'POST' | 'GET'} method
+     * @param {string} url
+     * @param {object} headers
+     * @param {any} data
+     */
+    function downloadFileXHR(method, url, headers, data) {
+      const xhr = new XMLHttpRequest();
+      xhr.open(method, url);
+
+      xhr.onloadstart = (ev) => {
+        console.log('Download has started');
+        spinner.classList.remove('visually-hidden');
+      }
+
+      xhr.onloadend = (ev) => {
+        console.log('Download has ended');
+        spinner.classList.add('visually-hidden');
+      }
+
+      xhr.onreadystatechange = (ev) => {
+        if (xhr.readyState === xhr.DONE) {
+          if (xhr.status === 200) {
+            const blob = new Blob([xhr.response], { type: xhr.getResponseHeader('Content-Type') });
+            const link = document.createElement('a');
+            const url = window.URL.createObjectURL(blob);
+            link.href = url;
+            link.download = xhr.getResponseHeader('x-filename');
+
+            // Programmatically click the link to trigger the download
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          } else {
+            window.alert('Download Failed !!');
+            spinner.classList.add('visually-hidden');
+          }
+        }
+      }
+
+      if (headers) {
+        for (const [key, val] of Object.entries(headers)) {
+          xhr.setRequestHeader(key.toString(), val.toString());
+        }
+      }
+      xhr.responseType = "blob";
+      xhr.send(data);
+
+    }
+  </script>
+
   <!-- connecting to socket -->
   <script>
     const socket = io();
@@ -62,19 +122,23 @@
         return;
       }
 
-      const res = await fetch('/api/download/files/multiple', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify({ filepaths: files }),
-      });
-
-      const url = URL.createObjectURL(await res.blob());
-      a.href = url;
-      a.click();
-      URL.revokeObjectURL(a);
+      downloadFileXHR('POST', '/api/download/files/multiple', {
+        'Content-Type': 'application/json'
+      }, JSON.stringify({ filepaths: files }));
     });
+
+    // const res = await fetch('/api/download/files/multiple', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-type': 'application/json',
+    //   },
+    //   body: JSON.stringify({ filepaths: files }),
+    // });
+
+    // const url = URL.createObjectURL(await res.blob());
+    // a.href = url;
+    // a.click();
+    // URL.revokeObjectURL(a);
 
     socket.on('invoke-download-folder-request', async (folder) => {
       console.log('Download folder:', folder);
@@ -82,6 +146,8 @@
       const a = document.createElement('a');
       a.href = `/api/download/folder/single?folderpath=${encodeURIComponent(folder)}`;
       a.click();
+      // downloadFileXHR('GET', `/api/download/folder/single?folderpath=${encodeURIComponent(folder)}`,
+      //   null, null);
     });
 
     /**
@@ -102,7 +168,7 @@
       activeIndicator.classList.remove('visually-hidden');
       [inactiveIndicator, retryBtn].forEach(e => e.classList.add('visually-hidden'));
     });
-    
+
     socket.on('disconnect', () => {
       activeIndicator.classList.add('visually-hidden');
       [inactiveIndicator, retryBtn].forEach(e => e.classList.remove('visually-hidden'));

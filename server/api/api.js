@@ -96,7 +96,7 @@ api.post('/download/files/multiple', async (req, res) => {
   archive.on('finish', archive.destroy);
   res.set({
     'x-filename': 'files.zip',
-    'Content-Type': 'application/octet-stream',
+    'Content-Type': 'application/zip',
     'Content-Disposition': `attachment; filename="files.zip"`,
     'Transfer-Encoding': 'chuncked',
   });
@@ -128,8 +128,9 @@ api.get('/download/folder/single', async (req, res) => {
   res.on('error', archive.destroy);
 
   res.set({
-    'Content-Type': 'application/octet-stream',
+    'Content-Type': 'application/zip',
     'Content-Disposition': `attachemnt; filename="${foldername}.zip"`,
+    'x-filename': `${foldername}.zip`,
     'Transfer-Encoding': 'chuncked',
   });
 
