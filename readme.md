@@ -1,25 +1,35 @@
 # Node Share
 
-Node share is a project trying to make bi directional file sharing over a LAN network possible with the help of NodeJS. Its main aim is to able to trasfer a file or folder to a mobile from a PC. wihout use of internet data.
+Node Share is a project trying to make bi-directional file sharing over a LAN network possible with the help of NodeJS. Its main aim is to be able to transfer a file or folder from a PC to a mobile device without using internet data.
 
-We all have been furstrated at some point where new laptops have lesser and lesser usb ports which are already occupied by exteral keyboards or mouse. Node Share allows to trasfer files without using slower Usb or bluetooth.
+We have all been frustrated at some point when new laptops have fewer USB ports, which are already occupied by external keyboards or mice. Node Share allows you to transfer files without relying on slower USB or Bluetooth connections.
 
-Today most of users connect to internet by making use of mobile hotspot which is connected to there computer or laptop so if they want to compya file/folder to mobile from pc they have to use a USB cable or bluetooth. Which is very slow and sometimes the usb cable is not available.
+Today, most users connect to the internet by using mobile hotspots that are connected to their computers or laptops. If they want to copy a file or folder from their PC to their mobile device, they often have to use a USB cable or Bluetooth, which can be slow and sometimes unavailable.
 
-There a already solutions for the same problem like android apps like `zapya, etc` but these do not offer to send **multile** files and whole **folder** at same time but Node-Share allows to transfer single file, **muliple**,**folder** to mobile device or infact to any other device on the network which can run a browser.
+While there are already solutions for the same problem, like Android apps such as `zapya, etc`, they do not offer the ability to send **multiple files** and entire **folders** at the same time. However, Node Share allows you to transfer single files, **multiple files**, and **folders** to a mobile device or any other device on the network that can run a browser.
 
-You can download the NodeShare setup from github releases section
+## Download
 
-# Things to keep in mind before use
-1. Make sure the sender pc and reciver pc or mobile is on same network like pc can be connected using mobile hotspot
+You can download the Node Share setup from the [GitHub Releases](https://github.com/rookie-engg/Node-Share/releases) section.
 
-2. Allow node share to access the public and private network in the netwrk window.
+## Prerequisites
 
-# steps to transfer from PC to mobile
-1. Bring PC and mobile on same network like tuning on mobile hotspot and connecting PC to it.
-2. run the node share exe
-3. Scan the QRcode on the screen through Mobile or type provided url manually in the mobile browser like chrome make sure you type in URL section not in google search engine
+Before using Node Share, please keep the following in mind:
 
-# Here is a sample scrrenshot
+1. Make sure the sender PC and receiver PC or mobile device are on the same network, such as by connecting the PC to the mobile hotspot.
 
-<img src="https://github.com/rookie-engg/Node-Share/blob/main/Screenshot.png?raw=true"></img>
+2. Allow Node Share to access the public and private network in the network settings.
+
+## Steps to Transfer from PC to Mobile
+
+To transfer files from a PC to a mobile device using Node Share, follow these steps:
+
+1. Ensure that the PC and the mobile device are on the same network, e.g., by turning on the mobile hotspot and connecting the PC to it.
+
+2. Run the Node Share executable.
+
+3. Scan the QR code on the screen using your mobile device or manually type the provided URL in a mobile browser like Chrome. Make sure you type the URL in the address bar, not in a search engine.
+
+## Sample Screenshot
+
+![Screenshot](https://github.com/rookie-engg/Node-Share/blob/main/Screenshot.png?raw=true)
