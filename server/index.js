@@ -6,7 +6,7 @@ module.exports = {
   initServer() {
     return new Promise((resolve) => {
       fp(8000).then(([port]) => {
-        const httpServer = app.listen(port, () => {
+        const httpServer = app.listen(port, '0.0.0.0', () => {
           io.listen(httpServer);
           const addr = httpServer.address();
           resolve(addr.port);
