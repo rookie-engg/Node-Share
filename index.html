@@ -2,67 +2,246 @@
 <html lang="en">
 
 <head>
-  <!-- This is the file for project website no relation with electrong source code-->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-  <title>Node Share</title>
-  <style>
-    body {
-      /* background-color: #0093E9; */
-      /* background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%); */
-      /* background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%); */
-      background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-attachment: fixed;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Node Share - File Sharing Over LAN</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- AOS for Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <style>
+        body {
+            background: linear-gradient(to bottom, #f0f9ff, #e0f2fe);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hero-bg {
+            background: linear-gradient(135deg, #3b82f6, #10b981);
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-glow {
+            transition: all 0.3s ease;
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #3b82f6;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1e3a8a, #065f46);
+        }
+    </style>
 </head>
 
-<body>
-  <div class="container mt-5 text-white">
-    <div class="row mb-4">
-      <div class="col-12 mt-5">
-        <p class="display-1 text-center text-light" style="font-size: 6rem;">Node Share</p>
-      </div>
-    </div>
-    <div class="row mb-4">
-      <div class="col text-center">
-        <a href="https://github.com/rookie-engg/Node-Share/releases/download/v1.0.1/node-share.1.0.1.msi"
-          class="btn btn-outline-primary rounded-3 fs-3" download="node-share.1.0.1.msi">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-windows"
-            viewBox="0 0 16 16">
-            <path
-              d="M6.555 1.375 0 2.237v5.45h6.555V1.375zM0 13.795l6.555.933V8.313H0v5.482zm7.278-5.4.026 6.378L16 16V8.395H7.278zM16 0 7.33 1.244v6.414H16V0z" />
-          </svg>
-          node-share.msi</a>
-      </div>
+<body class="antialiased">
+    <!-- Hero Section -->
+    <section class="hero-bg text-white py-20">
+        <div class="container mx-auto px-4 text-center" data-aos="fade-up">
+            <h1 class="text-5xl md:text-6xl font-bold mb-4">Node Share</h1>
+            <p class="text-xl md:text-2xl mb-6">Seamless File & Folder Sharing Over Your Local Network</p>
+            <a href="#download"
+                class="inline-block bg-white text-blue-600 font-semibold py-3 px-6 rounded-full btn-glow">Get
+                Started</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-12">
+        <!-- Highlighted Info -->
+        <div class="text-center mb-12" data-aos="fade-up" data-aos-delay="100">
+            <p class="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">
+                <span class="font-bold">Node Share</span> empowers you to <span class="text-blue-600">share files and
+                    folders</span> effortlessly between <span class="font-semibold">PCs and mobile devices</span> over a
+                local network. No internet, no cables, just fast, secure transfers via Wi-Fi or hotspot. Built with
+                Node.js, it’s open-source and designed for simplicity.
+            </p>
+        </div>
+
+        <!-- Why Node Share? -->
+        <div class="mb-12" data-aos="fade-up" data-aos-delay="200">
+            <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">🌐 Why Node Share?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-effect rounded-xl p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Simple & Intuitive</h3>
+                    <p class="text-gray-600">No complex setup—connect to the same network, scan a QR code, and start
+                        sharing instantly.</p>
+                </div>
+                <div class="glass-effect rounded-xl p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Open-Source Freedom</h3>
+                    <p class="text-gray-600">Built by the community, for the community. Explore and contribute to the
+                        code on GitHub.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Download Buttons -->
+        <div id="download" class="text-center mb-12" data-aos="fade-up" data-aos-delay="300">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Download for Windows</h2>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="https://github.com/rookie-engg/Node-Share/releases/download/v1.0.1/node-share.1.0.1.msi"
+                    class="btn-glow bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700">
+                    <i class="bi bi-windows mr-2"></i>Node Share v1 (MSI)
+                </a>
+                <a href="https://github.com/rookie-engg/node-share-v2/releases/download/latest/Node.Share.Installer.exe"
+                    class="btn-glow bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700">
+                    <i class="bi bi-windows mr-2"></i>Node Share v2 (EXE)
+                </a>
+            </div>
+            <p class="mt-4 text-gray-600">Windows only for now — <span class="font-semibold">Linux & macOS coming
+                    soon!</span></p>
+        </div>
+
+        <!-- Features -->
+        <div class="mb-12" data-aos="fade-up" data-aos-delay="400">
+            <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">🚀 Key Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-effect rounded-xl p-6 text-center">
+                    <i class="bi bi-folder-symlink-fill feature-icon mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Transfer Folders & Files</h3>
+                    <p class="text-gray-600">Send multiple files or entire directories in one go — ideal for media and
+                        documents.</p>
+                </div>
+                <div class="glass-effect rounded-xl p-6 text-center">
+                    <i class="bi bi-arrow-left-right feature-icon mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">PC ↔ Mobile / PC ↔ PC</h3>
+                    <p class="text-gray-600">Bidirectional sharing across devices via any modern browser over the same
+                        LAN.</p>
+                </div>
+                <div class="glass-effect rounded-xl p-6 text-center">
+                    <i class="bi bi-wifi-off feature-icon mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Offline Sharing</h3>
+                    <p class="text-gray-600">No internet? No problem! Works over Wi-Fi or hotspot without data usage.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- How It Works -->
+        <div class="mb-12" data-aos="fade-up" data-aos-delay="500">
+            <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">📲 How It Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <ol class="list-decimal list-inside text-lg text-gray-700 space-y-2">
+                        <li>Connect PC and mobile to the same Wi-Fi or hotspot.</li>
+                        <li>Run Node Share on your PC.</li>
+                        <li>Scan the QR code or open the URL in your mobile browser.</li>
+                        <li>Choose files/folders and start sharing!</li>
+                    </ol>
+                </div>
+                <div class="text-center">
+                    <div class="flex justify-center items-center gap-4">
+                        <i class="bi bi-phone text-5xl text-blue-600"></i>
+                        <i class="bi bi-arrow-left-right text-4xl text-gray-600"></i>
+                        <i class="bi bi-laptop text-5xl text-blue-600"></i>
+                    </div>
+                    <p class="mt-4 text-gray-600">Direct device-to-device sharing</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contribute Section -->
+        <div class="mb-12" data-aos="fade-up" data-aos-delay="600">
+            <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">🤝 Join the Community</h2>
+            <div class="text-center max-w-2xl mx-auto">
+                <p class="text-lg text-gray-600 mb-6">Node Share is an open-source project powered by developers like
+                    you. Contribute to its growth by reporting bugs, suggesting features, or submitting code on GitHub.
+                </p>
+                <a href="https://github.com/rookie-engg/node-share-v2/issues" target="_blank"
+                    class="inline-block btn-glow bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700">
+                    <i class="bi bi-bug mr-2"></i> Report an Issue
+                </a>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="mb-12" data-aos="fade-up" data-aos-delay="700">
+            <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">❓ Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                <div class="glass-effect rounded-xl p-6">
+                    <h3 class="text-lg font-semibold text-gray-800">Is Node Share secure?</h3>
+                    <p class="text-gray-600">Yes, Node Share operates over a local network without internet dependency,
+                        reducing exposure to external threats. Files are transferred directly between devices on the
+                        same LAN, ensuring privacy.</p>
+                </div>
+                <div class="glass-effect rounded-xl p-6">
+                    <h3 class="text-lg font-semibold text-gray-800">Do both devices need Node Share installed?</h3>
+                    <p class="text-gray-600">No, only the host device (e.g., PC) needs Node Share. Other devices access
+                        it via a browser using a QR code or URL.</p>
+                </div>
+                <div class="glass-effect rounded-xl p-6">
+                    <h3 class="text-lg font-semibold text-gray-800">What’s new in Node Share v2?</h3>
+                    <p class="text-gray-600">Node Share v2 introduces several enhancements, including:</p>
+                    <ul class="list-disc list-inside text-gray-600">
+                        <li><strong>Upgraded Tech Stack</strong>: Built with Node.js v18 (up from v14 in v1) for better
+                            performance and security, and Express.js v4.18 for robust routing.</li>
+                        <li><strong>Improved Frontend</strong>: Replaced basic HTML/CSS with Vue.js v3 for a more
+                            responsive and modern UI, enhancing user experience on mobile browsers.</li>
+                        <li><strong>Faster Transfers</strong>: Optimized file streaming with Node.js streams and
+                            WebSocket support, reducing latency for large file transfers.</li>
+                        <li><strong>Better Error Handling</strong>: Enhanced error management following Node.js best
+                            practices, ensuring stability during high-load scenarios.</li>
+                    </ul>
+                    <p class="text-gray-600 mt-2">Check the <a href="https://github.com/rookie-engg/node-share-v2"
+                            target="_blank" class="text-blue-600 hover:underline">GitHub repo</a> for more details.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- GitHub Links -->
+        <div class="text-center mb-12" data-aos="fade-up" data-aos-delay="800">
+            <h4 class="text-2xl font-bold text-gray-800 mb-6">🔗 Explore the Code</h4>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="https://github.com/rookie-engg/Node-Share" target="_blank"
+                    class="btn-glow bg-gray-800 text-white py-3 px-6 rounded-lg hover:bg-gray-900">
+                    <i class="bi bi-github mr-2"></i>Node Share v1 GitHub
+                </a>
+                <a href="https://github.com/rookie-engg/node-share-v2" target="_blank"
+                    class="btn-glow bg-gray-800 text-white py-3 px-6 rounded-lg hover:bg-gray-900">
+                    <i class="bi bi-github mr-2"></i>Node Share v2 GitHub
+                </a>
+            </div>
+        </div>
     </div>
 
-    <div class="d-flex justify-content-center">
-      <div class="card" style="width: 20rem;">
-        <div class="card-body">
-          <p class="displpay-1 text-center">Also Visit !</p>
-          <div class="row">
-            <div class="col text-center">
-              <a href="https://github.com/rookie-engg/Node-Share/" target="_blank">
-                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-github"
-                  viewBox="0 0 16 16">
-                  <path
-                    d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
-                </svg>
-              </a>
-            </div>
-          </div>
+    <!-- Footer -->
+    <footer class="text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-lg mb-2">Node Share © 2025 | Open-Source File Sharing</p>
+            <p class="text-sm">Built with <i class="bi bi-heart-fill text-red-400"></i> by the Node Share Community</p>
         </div>
-      </div>
-    </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-    crossorigin="anonymous"></script>
+    </footer>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+        });
+    </script>
 </body>
 
 </html>
